@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positive Futures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'positive-lime': '#CDDC39',
+              'positive-dark-gray': '#383838',
+              'positive-light-gray': '#E0E0E0', // Used for some borders, backgrounds
+              'positive-green-accent': '#DCE5B1', // Lighter green for tags, backgrounds
+              'positive-bg-base': '#F0F0E6', // Main page background
+              'positive-map-bg': '#F0F0E6', // Map background with light tiles
+              'positive-popup-bg': '#E6F5C7', // Light green for map popups
+              'positive-button-subtle-bg': '#E9E9E9', // For "Veja Mais" on project cards
+              'forum-comunicados-icon-bg': '#FEE2E2', // Light red
+              'forum-projetos-icon-bg': '#FEF3C7', // Light yellow
+              'forum-cenarios-icon-bg': '#DBEAFE',    // Light blue
+              'forum-estudos-icon-bg': '#E0E7FF',    // Light indigo
+            },
+            fontFamily: {
+              inter: ['Inter', 'sans-serif'],
+            },
+            boxShadow: {
+              'custom-popup': '0 4px 15px rgba(0,0,0,0.1)',
+              'forum-card': '0 2px 10px rgba(0,0,0,0.07)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F0F0E6; /* positive-bg-base */
+        color: #383838; /* positive-dark-gray */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Custom Leaflet Marker Styles (simple dot) */
+      .custom-map-marker-dot {
+        width: 16px !important;
+        height: 16px !important;
+        background-color: #CDDC39; /* positive-lime */
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      }
+
+      /* Custom Leaflet Popup Styles (New Design) */
+      .leaflet-popup-content-wrapper {
+        background-color: #E6F5C7 !important; /* positive-popup-bg */
+        color: #383838 !important; /* positive-dark-gray */
+        border: 1px solid #CDDC39 !important; /* positive-lime */
+        border-radius: 8px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+      }
+      .leaflet-popup-content {
+        margin: 12px !important;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      .leaflet-popup-tip {
+        background-color: #E6F5C7 !important; /* positive-popup-bg */
+      }
+      .leaflet-container a.leaflet-popup-close-button {
+        color: #383838 !important; /* positive-dark-gray */
+        top: 8px !important;
+        right: 8px !important;
+      }
+      .leaflet-container a.leaflet-popup-close-button:hover {
+        color: #000000 !important;
+      }
+      .leaflet-control-zoom {
+        display: none !important;
+      }
+      .leaflet-control-attribution {
+        display: none !important;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #E0E0E0; /* positive-light-gray or bg-base */
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #A0A0A0; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #383838; /* positive-dark-gray */
+      }
+      body { /* Firefox scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: #A0A0A0 #E0E0E0;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@^18.2.0/client",
+    "leaflet": "https://esm.sh/leaflet@^1.9.4",
+    "react-dom": "https://esm.sh/react-dom@^18.2.0", 
+    "react-dom/": "https://esm.sh/react-dom@^18.2.0/",
+    "react/": "https://esm.sh/react@^18.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
