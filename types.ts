@@ -1,7 +1,14 @@
+
 export enum InitiativeCategory {
   INSTITUICAO = "Instituição",
   PROJETO = "Projeto",
   COLETIVO = "Coletivo",
+}
+
+export interface TimelineEvent {
+  title: string;
+  date: string;
+  description?: string;
 }
 
 export interface InitiativeDetails {
@@ -9,6 +16,9 @@ export interface InitiativeDetails {
   Local: string;
   Descrição: string;
   departamento?: string; 
+  transporteIncluso?: boolean;
+  alimentacaoInclusa?: boolean;
+  internetDisponivel?: boolean;
 }
 
 export interface ProjectSummary {
@@ -32,6 +42,7 @@ export interface Initiative {
   countryCode?: string; 
   projects?: ProjectSummary[]; 
   campo?: string; 
+  timelineEvents?: TimelineEvent[];
 }
 
 export enum Page {
@@ -39,6 +50,7 @@ export enum Page {
   FORUM = "forum-page",
   INITIATIVES = "initiatives-page",
   INITIATIVE_DETAILS = "initiative-details-page",
+  // LOGIN = "login-page", // Removed: Login will be a modal
 }
 
 export interface ForumItemData {

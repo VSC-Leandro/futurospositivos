@@ -1,4 +1,5 @@
-import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, ForumSidebarTag } from './types';
+
+import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, ForumSidebarTag, TimelineEvent } from './types';
 import { MegaphoneIcon, StarIcon, ConstructionIcon, BooksIcon } from './components/icons';
 
 export const INITIAL_INITIATIVES_DATA: Initiative[] = [
@@ -37,8 +38,17 @@ export const INITIAL_INITIATIVES_DATA: Initiative[] = [
     details: { 
       Responsavel: "Visão Coop", 
       Local: "Complexo da Penha, RJ", 
-      Descrição: "Este mutirão tem como foco principal o plantio de 500 mudas de espécies nativas da Mata Atlântica na área da Serra da Misericórdia. Envolve a comunidade local em ações de conscientização e preservação." 
+      Descrição: "Este mutirão tem como foco principal o plantio de 500 mudas de espécies nativas da Mata Atlântica na área da Serra da Misericórdia. Envolve a comunidade local em ações de conscientização e preservação.",
+      transporteIncluso: true,
+      alimentacaoInclusa: true,
+      internetDisponivel: false,
     },
+    timelineEvents: [
+      { title: "Período de Inscrição", date: "01/11/2024 - 15/11/2024", description: "Inscrições abertas através do nosso website oficial." },
+      { title: "Preparação e Logística", date: "16/11/2024 - 20/11/2024", description: "Organização dos materiais, ferramentas e equipes de voluntários." },
+      { title: "Dia da Atividade Principal", date: "25/11/2024 - 09:00 às 17:00", description: "Plantio das mudas, oficinas de educação ambiental e confraternização." },
+      { title: "Monitoramento Inicial", date: "26/11/2024 - 10/12/2024", description: "Primeiras vistorias da área reflorestada e cuidados iniciais com as mudas." },
+    ],
     campo: "Reflorestamento",
     countryCode: "BR",
   },
