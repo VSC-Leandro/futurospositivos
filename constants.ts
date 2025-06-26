@@ -1,5 +1,6 @@
 
-import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, ForumSidebarTag, TimelineEvent } from './types';
+
+import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, ForumSidebarTag, TimelineEvent, ForumReply } from './types';
 import { MegaphoneIcon, StarIcon, ConstructionIcon, BooksIcon } from './components/icons';
 
 export const INITIAL_INITIATIVES_DATA: Initiative[] = [
@@ -127,9 +128,15 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     categoryId: 'comunicados', 
     title: 'Manutenção programada para o próximo domingo', 
     author: 'Admin', 
-    lastReplyTime: '2h atrás', 
+    lastReplyTime: '1h atrás', 
     tags: ['#bugfix'], 
-    replyCount: 5 
+    replyCount: 3,
+    message: 'Olá a todos! Gostaríamos de informar que realizaremos uma manutenção programada em nossos servidores no próximo domingo, entre as 02:00 e 04:00 da manhã (horário de Brasília). Durante este período, a plataforma poderá apresentar instabilidade. Agradecemos a compreensão.',
+    replies: [
+      { id: 'reply1-1', author: 'João Pereira', authorAvatar: 'https://i.pravatar.cc/150?u=jp', timestamp: '1h atrás', content: 'Obrigado pelo aviso! Bom trabalho para a equipe.' },
+      { id: 'reply1-2', author: 'Carla Dias', authorAvatar: 'https://i.pravatar.cc/150?u=cd', timestamp: '30m atrás', content: 'Anotado. Essa manutenção vai corrigir o bug de login?' },
+      { id: 'reply1-3', author: 'Admin', authorAvatar: 'https://i.pravatar.cc/150?u=admin', timestamp: '5m atrás', content: 'Olá @Carla Dias, sim, essa atualização inclui a correção para o problema de login reportado. Obrigado!' },
+    ]
   },
   { 
     id: 'topic2', 
@@ -138,7 +145,9 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     author: 'Admin', 
     lastReplyTime: '1d atrás', 
     tags: ['#Q&A'], 
-    replyCount: 12 
+    replyCount: 0,
+    message: 'É com grande prazer que anunciamos o lançamento da v2 da nossa plataforma! Explore as novas funcionalidades e nos diga o que achou. Estamos abertos a feedbacks e sugestões nos canais apropriados. Divirtam-se!',
+    replies: []
   },
   { 
     id: 'topic3', 
@@ -147,16 +156,23 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     author: 'Equipe Legal', 
     lastReplyTime: '3d atrás', 
     tags: ['#anúncio'], 
-    replyCount: 2 
+    replyCount: 0,
+    message: 'Prezados usuários, atualizamos nossos Termos de Serviço para refletir as novas diretrizes de privacidade. Por favor, leiam com atenção. O uso contínuo da plataforma implica na aceitação dos novos termos.',
+    replies: []
   },
   { 
     id: 'topic4', 
     categoryId: 'projetos_narrativas', 
     title: 'Ideia para projeto de reflorestamento na Amazônia', 
     author: 'Maria Silva', 
-    lastReplyTime: '5h atrás', 
+    lastReplyTime: '4h atrás', 
     tags: ['#ideia', '#reflorestamento'], 
-    replyCount: 8 
+    replyCount: 2,
+    message: 'Pessoal, tive uma ideia para um projeto de reflorestamento em áreas degradadas na Amazônia, utilizando drones para o plantio de sementes. O que acham? Alguém com experiência na área para discutir a viabilidade?',
+    replies: [
+        { id: 'reply4-1', author: 'Dr. Ana Beatriz', authorAvatar: 'https://i.pravatar.cc/150?u=ab', timestamp: '3h atrás', content: 'Excelente iniciativa, Maria! Já existem alguns estudos sobre a eficácia de drones. Posso compartilhar alguns links. O principal desafio é o monitoramento pós-plantio.' },
+        { id: 'reply4-2', author: 'Carlos Andrade', authorAvatar: 'https://i.pravatar.cc/150?u=ca', timestamp: '2h atrás', content: 'Acho a ideia fantástica. Talvez possamos integrar com comunidades locais para o monitoramento, gerando renda e engajamento.' }
+    ]
   },
   { 
     id: 'topic5', 
@@ -165,7 +181,9 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     author: 'João Pereira', 
     lastReplyTime: '1sem atrás', 
     tags: ['#história', '#comunidade'], 
-    replyCount: 15 
+    replyCount: 0,
+    message: 'Queria compartilhar a história da horta comunitária do nosso bairro. Começou pequena e hoje abastece mais de 50 famílias, além de ser um espaço incrível de convivência. Vou postar fotos em breve!',
+    replies: []
   },
   { 
     id: 'topic6', 
@@ -174,7 +192,9 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     author: 'Carlos Andrade', 
     lastReplyTime: '10h atrás', 
     tags: ['#futuro', '#cidades'], 
-    replyCount: 22 
+    replyCount: 0,
+    message: 'Como vocês imaginam as cidades em 2050? Vamos construir juntos um cenário otimista e sustentável. Pensem em transporte, moradia, energia, etc.',
+    replies: []
   },
    { 
     id: 'topic7', 
@@ -183,7 +203,9 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     author: 'Dr. Ana Beatriz', 
     lastReplyTime: '2sem atrás', 
     tags: ['#pesquisa', '#agroecologia'], 
-    replyCount: 9 
+    replyCount: 0,
+    message: 'Segue o link para meu último estudo de caso sobre a implementação de sistemas agroflorestais em pequenas propriedades e seu impacto na segurança alimentar. Aberta para discussões e perguntas. [link para o estudo]',
+    replies: []
   },
 ];
 

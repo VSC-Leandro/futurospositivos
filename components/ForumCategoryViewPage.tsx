@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo } from 'react';
 import { ForumItemData, ForumTopic, ForumSidebarTag } from '../types';
 import { ForumTopicCard } from './ForumTopicCard';
@@ -9,7 +10,8 @@ interface ForumCategoryViewPageProps {
   topics: ForumTopic[];
   availableTags: ForumSidebarTag[];
   onBack: () => void;
-  onOpenCreateTopicModal: () => void; // New prop
+  onOpenCreateTopicModal: () => void;
+  onSelectTopic: (topic: ForumTopic) => void;
 }
 
 export const ForumCategoryViewPage: React.FC<ForumCategoryViewPageProps> = ({
@@ -17,7 +19,8 @@ export const ForumCategoryViewPage: React.FC<ForumCategoryViewPageProps> = ({
   topics,
   availableTags,
   onBack,
-  onOpenCreateTopicModal, // Destructure new prop
+  onOpenCreateTopicModal,
+  onSelectTopic,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSidebarTags, setSelectedSidebarTags] = useState<Set<string>>(new Set());
@@ -107,7 +110,7 @@ export const ForumCategoryViewPage: React.FC<ForumCategoryViewPageProps> = ({
             {filteredTopics.length > 0 ? (
               <div className="space-y-4">
                 {filteredTopics.map(topic => (
-                  <ForumTopicCard key={topic.id} topic={topic} />
+                  <ForumTopicCard key={topic.id} topic={topic} onSelectTopic={onSelectTopic} />
                 ))}
               </div>
             ) : (

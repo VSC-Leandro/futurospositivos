@@ -1,4 +1,7 @@
 
+import { ForumItemData as OriginalForumItemData } from './types';
+
+
 export enum InitiativeCategory {
   INSTITUICAO = "Instituição",
   PROJETO = "Projeto",
@@ -50,7 +53,7 @@ export enum Page {
   FORUM = "forum-page",
   INITIATIVES = "initiatives-page",
   INITIATIVE_DETAILS = "initiative-details-page",
-  // LOGIN = "login-page", // Removed: Login will be a modal
+  FORUM_TOPIC_DETAILS = "forum-topic-details-page",
 }
 
 export interface ForumItemData {
@@ -69,15 +72,25 @@ export interface ForumTag {
   type: 'category' | 'tag'; // For main forum page filters
 }
 
+export interface ForumReply {
+  id: string;
+  author: string;
+  authorAvatar: string;
+  timestamp: string;
+  content: string;
+}
+
 // New type for individual forum topics
 export interface ForumTopic {
-  id: string;
+  id:string;
   categoryId: string; // Links to ForumItemData.id (e.g., 'comunicados')
   title: string;
   author: string;
   lastReplyTime: string; // e.g., "2h atrás"
   tags: string[]; // Topic-specific tags, e.g., ["#bugfix"]
   replyCount: number;
+  message: string;
+  replies?: ForumReply[];
 }
 
 // New type for tags shown in the sidebar of ForumCategoryViewPage
