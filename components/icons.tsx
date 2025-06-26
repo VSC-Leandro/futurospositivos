@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export const SearchIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -96,5 +97,31 @@ export const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
 export const UpArrowIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className || "h-4 w-4"} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" >
     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+  </svg>
+);
+
+export const CarIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-6 w-6"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11C5.84 5 5.28 5.42 5.08 6.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+  </svg>
+);
+
+export const FoodIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-6 w-6"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5V9H18v7h2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3z"/>
+  </svg>
+);
+
+
+export const WifiIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-6 w-6"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C19.73 5.73 15.15 4 12 4S4.27 5.73 1 9zm3.5 3.5L6 14c3.31-3.31 8.69-3.31 12 0l1.5-1.5c-4.14-4.14-10.86-4.14-15 0zm3.5 3.5L9.5 17.5c1.93-1.93 5.07-1.93 7 0L18 16c-2.76-2.76-7.24-2.76-10 0zM12 20a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+  </svg>
+);
+
+export const ClockIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" clipRule="evenodd" />
   </svg>
 );

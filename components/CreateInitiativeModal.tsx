@@ -23,15 +23,17 @@ interface CreateInitiativeModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCreateInitiative: (formData: CreateInitiativeFormData) => void;
+  defaultType?: InitiativeCategory; // New optional prop
 }
 
 export const CreateInitiativeModal: React.FC<CreateInitiativeModalProps> = ({
   isOpen,
   onClose,
   onCreateInitiative,
+  defaultType, // Destructure new prop
 }) => {
   const [name, setName] = useState('');
-  const [type, setType] = useState<InitiativeCategory>(InitiativeCategory.PROJETO);
+  const [type, setType] = useState<InitiativeCategory>(defaultType || InitiativeCategory.PROJETO);
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [avatar, setAvatar] = useState('');
@@ -48,7 +50,7 @@ export const CreateInitiativeModal: React.FC<CreateInitiativeModalProps> = ({
     if (isOpen) {
       // Reset form when modal opens
       setName('');
-      setType(InitiativeCategory.PROJETO);
+      setType(defaultType || InitiativeCategory.PROJETO); // Use defaultType if provided
       setLat('');
       setLng('');
       setAvatar('');
@@ -61,7 +63,7 @@ export const CreateInitiativeModal: React.FC<CreateInitiativeModalProps> = ({
       setCampo('');
       setCountryCode('BR');
     }
-  }, [isOpen]);
+  }, [isOpen, defaultType]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Initiative, ProjectSummary } from '../types';
-import { BackArrowIcon, InstitutionIcon } from './icons'; 
+import { Initiative, ProjectSummary, InitiativeCategory } from '../types';
+import { BackArrowIcon, InstitutionIcon, CarIcon, FoodIcon, WifiIcon, ClockIcon } from './icons'; 
 
 interface ProjectSummaryCardProps {
   project: ProjectSummary;
@@ -22,6 +22,28 @@ const ProjectSummaryCard: React.FC<ProjectSummaryCardProps> = ({ project }) => (
     </div>
   </div>
 );
+
+interface AdditionalInfoItemProps {
+  icon: React.ReactElement<{ className?: string }>; // Updated prop type
+  label: string;
+  available: boolean;
+}
+
+const AdditionalInfoItem: React.FC<AdditionalInfoItemProps> = ({ icon, label, available }) => {
+  return (
+    <div className="flex items-center space-x-2.5">
+      <div className={`flex-shrink-0 p-1.5 rounded-md ${available ? 'bg-positive-lime' : 'bg-gray-200'}`}>
+        {React.cloneElement(icon, { // Removed 'as React.ReactElement' cast
+          className: `w-5 h-5 ${available ? 'text-positive-dark-gray' : 'text-gray-400'}` 
+        })}
+      </div>
+      <span className={`text-sm font-medium ${available ? 'text-positive-dark-gray' : 'text-gray-500 line-through'}`}>
+        {label}
+      </span>
+    </div>
+  );
+};
+
 
 interface InitiativeDetailsPageProps {
   initiative: Initiative | null;
@@ -72,7 +94,7 @@ export const InitiativeDetailsPage: React.FC<InitiativeDetailsPageProps> = ({ in
             <div className="mt-3">
               <span className="text-xs text-gray-500 mr-1">TIPO:</span>
               <span className="inline-flex items-center bg-positive-green-accent text-positive-dark-gray px-3 py-1.5 rounded-full text-sm font-semibold">
-                <InstitutionIcon className="w-4 h-4 mr-2 text-positive-dark-gray" />
+                <InstitutionIcon className="w-4 h-4 mr-2 text-positive-dark-gray" /> {/* Or a dynamic icon based on type */}
                 <span id="detail-type">{initiative.type.toUpperCase()}</span>
               </span>
             </div>
@@ -112,12 +134,58 @@ export const InitiativeDetailsPage: React.FC<InitiativeDetailsPageProps> = ({ in
                 ))}
               </div>
             </div>
+
+            {initiative.type === InitiativeCategory.PROJETO && (
+              <>
+                {/* Linha do Tempo */}
+                {initiative.timelineEvents && initiative.timelineEvents.length > 0 && (
+                  <div className="mt-6">
+                    <p className="text-sm font-medium text-gray-500 mb-3">Linha do Tempo</p>
+                    <div className="relative border-l-2 border-positive-green-accent/50 pl-6 space-y-4">
+                      {initiative.timelineEvents.map((event, index) => (
+                        <div key={index} className="relative">
+                          <div className="absolute -left-[calc(0.75rem+2px)] top-0.5 w-3 h-3 bg-positive-lime rounded-full border-2 border-white ring-1 ring-positive-green-accent/80 shadow-sm"></div>
+                           <div className="flex items-center mb-0.5">
+                            <ClockIcon className="w-3.5 h-3.5 text-gray-400 mr-1.5 flex-shrink-0" />
+                            <h4 className="text-sm font-semibold text-positive-dark-gray">{event.title}</h4>
+                          </div>
+                          <p className="text-xs text-gray-600 ml-[calc(0.875rem+0.375rem)]">{event.date}</p>
+                          {event.description && <p className="text-xs text-gray-500 mt-0.5 ml-[calc(0.875rem+0.375rem)]">{event.description}</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Informações Adicionais */}
+                <div className="mt-6">
+                  <p className="text-sm font-medium text-gray-500 mb-3">Informações Adicionais</p>
+                  <div className="space-y-3">
+                    <AdditionalInfoItem 
+                      icon={<CarIcon />} 
+                      label="Transporte Incluso" 
+                      available={!!initiative.details.transporteIncluso} 
+                    />
+                    <AdditionalInfoItem 
+                      icon={<FoodIcon />} 
+                      label="Alimentação Inclusa" 
+                      available={!!initiative.details.alimentacaoInclusa} 
+                    />
+                    <AdditionalInfoItem 
+                      icon={<WifiIcon />} 
+                      label="Internet Disponível" 
+                      available={!!initiative.details.internetDisponivel} 
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </aside>
         </div>
         
         {initiative.projects && initiative.projects.length > 0 && (
           <div className="mt-12 border-t border-positive-light-gray pt-8">
-            <h3 className="font-black text-2xl text-positive-dark-gray mb-6 tracking-tight">Projetos</h3>
+            <h3 className="font-black text-2xl text-positive-dark-gray mb-6 tracking-tight">Projetos Relacionados</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {initiative.projects.map(project => (
                 <ProjectSummaryCard key={project.id} project={project} />

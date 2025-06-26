@@ -3,23 +3,30 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import { Initiative, Page, InitiativeCategory } from '../types';
 import { MAP_INITIAL_CENTER, MAP_INITIAL_ZOOM, MAP_TILE_URL, MAP_ATTRIBUTION } from '../constants';
-import { ForumIcon, BrazilFlagIcon, PlusIcon } from './icons';
-import { ForumPreviewPopup } from './ForumPreviewPopup'; // New component
+import { ForumIcon, PlusIcon } from './icons'; // BrazilFlagIcon removed as it's directly inlined
+import { ForumPreviewPopup } from './ForumPreviewPopup';
 
 interface MapPageProps {
-  initiatives: Initiative[]; // This will now come from App.tsx state
+  initiatives: Initiative[];
   onShowInitiativeDetails: (initiative: Initiative) => void;
   onNavigate: (page: Page) => void;
   isForumPreviewOpen: boolean;
   onToggleForumPreview: () => void;
+  onOpenAddTypeModal: () => void; // New prop to open Add Initiative Type modal
 }
 
-export const MapPage: React.FC<MapPageProps> = ({ initiatives, onShowInitiativeDetails, onNavigate, isForumPreviewOpen, onToggleForumPreview }) => {
+export const MapPage: React.FC<MapPageProps> = ({ 
+  initiatives, 
+  onShowInitiativeDetails, 
+  onNavigate, 
+  isForumPreviewOpen, 
+  onToggleForumPreview,
+  onOpenAddTypeModal // Destructure new prop
+}) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
   
-  // Use currentFilter from App state via props if needed, or manage locally if only for map
   const [currentMapFilter, setCurrentMapFilter] = React.useState<InitiativeCategory | 'all'>(InitiativeCategory.COLETIVO);
 
 
@@ -35,14 +42,14 @@ export const MapPage: React.FC<MapPageProps> = ({ initiatives, onShowInitiativeD
 
     filteredInitiatives.forEach(item => {
       const customIcon = L.divIcon({ 
-        className: 'custom-map-marker-dot', // Styled in index.html for simple dot
-        iconSize: [16, 16], // Matches the CSS
+        className: 'custom-map-marker-dot',
+        iconSize: [16, 16],
       });
       
       const marker = L.marker([item.lat, item.lng], { icon: customIcon }).addTo(mapRef.current!);
       
       const popupEl = document.createElement('div');
-      popupEl.className = 'font-inter text-positive-dark-gray'; // Base styling for popup content
+      popupEl.className = 'font-inter text-positive-dark-gray';
 
       let flagHtml = '';
       if (item.countryCode === 'BR') { 
@@ -120,6 +127,15 @@ export const MapPage: React.FC<MapPageProps> = ({ initiatives, onShowInitiativeD
       </button>
 
       <ForumPreviewPopup isOpen={isForumPreviewOpen} onClose={onToggleForumPreview} onNavigate={onNavigate} />
+
+      {/* New FAB for adding initiative */}
+      <button
+        onClick={onOpenAddTypeModal}
+        className="fixed bottom-6 right-6 z-10 bg-positive-lime text-positive-dark-gray p-4 rounded-full shadow-lg hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-positive-lime focus:ring-opacity-50 transition-all duration-300 hover:transform hover:scale-105"
+        aria-label="Adicionar iniciativa ao mapa"
+      >
+        <PlusIcon className="h-6 w-6" />
+      </button>
     </div>
   );
 };
