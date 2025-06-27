@@ -1,5 +1,5 @@
 
-import { ForumItemData as OriginalForumItemData } from './types';
+import React from 'react';
 
 
 export enum InitiativeCategory {
@@ -62,14 +62,21 @@ export interface ForumItemData {
   title: string;
   description: string;
   count: number;
-  iconBgClass: string; 
-  textColorClass: string; 
+  color: string; // e.g., '#EF4444' for red
+  iconBgClass?: string;
+  textColorClass?: string;
 }
 
 export interface ForumTag {
   id: string;
   label: string;
   type: 'category' | 'tag'; // For main forum page filters
+}
+
+export interface ForumSidebarTag {
+  id: string;
+  label: string;
+  colorClass?: string;
 }
 
 export interface ForumReply {
@@ -86,16 +93,12 @@ export interface ForumTopic {
   categoryId: string; // Links to ForumItemData.id (e.g., 'comunicados')
   title: string;
   author: string;
+  authorAvatar: string;
   lastReplyTime: string; // e.g., "2h atrás"
-  tags: string[]; // Topic-specific tags, e.g., ["#bugfix"]
+  tags: string[]; // Topic-specific tags, e.g., ["bugfix"]
   replyCount: number;
   message: string;
   replies?: ForumReply[];
-}
-
-// New type for tags shown in the sidebar of ForumCategoryViewPage
-export interface ForumSidebarTag {
-  id: string; // e.g., 'bugfix'
-  label: string; // e.g., '#bugfix'
-  colorClass?: string; // Optional: e.g., 'text-blue-500 bg-blue-100'
+  views: number;
+  pinned?: boolean;
 }

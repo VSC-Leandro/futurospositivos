@@ -158,7 +158,7 @@ export const ForumTopicDetailsPage: React.FC<ForumTopicDetailsPageProps> = ({ to
           className="flex items-center text-sm font-semibold text-gray-600 hover:text-positive-dark-gray mb-6 group"
         >
           <BackArrowIcon className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
-          Voltar para os tópicos
+          Voltar para o Fórum
         </button>
 
         {/* Topic Header */}

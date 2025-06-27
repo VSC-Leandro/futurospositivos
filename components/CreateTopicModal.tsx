@@ -89,7 +89,7 @@ export const CreateTopicModal: React.FC<CreateTopicModalProps> = ({
               id="topic-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-2.5 border border-gray-600 bg-positive-dark-gray text-white placeholder-gray-400 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm"
+              className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm text-positive-dark-gray placeholder-gray-400"
               required
             />
           </div>
@@ -102,11 +102,11 @@ export const CreateTopicModal: React.FC<CreateTopicModalProps> = ({
               id="topic-category"
               value={selectedCategoryId}
               onChange={(e) => setSelectedCategoryId(e.target.value)}
-              className="w-full p-2.5 border border-gray-600 bg-positive-dark-gray text-white rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm"
+              className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm text-positive-dark-gray"
               required
             >
               {forumCategories.map(category => (
-                <option key={category.id} value={category.id} className="bg-positive-dark-gray text-white">
+                <option key={category.id} value={category.id}>
                   {category.title}
                 </option>
               ))}
@@ -123,7 +123,7 @@ export const CreateTopicModal: React.FC<CreateTopicModalProps> = ({
               value={tags}
               onChange={(e) => setTags(e.target.value)}
               placeholder="#IA, #COP30, #sugestão"
-              className="w-full p-2.5 border border-gray-600 bg-positive-dark-gray text-white placeholder-gray-400 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm"
+              className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm text-positive-dark-gray placeholder-gray-400"
             />
           </div>
 
@@ -136,7 +136,7 @@ export const CreateTopicModal: React.FC<CreateTopicModalProps> = ({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={6}
-              className="w-full p-2.5 border border-gray-600 bg-positive-dark-gray text-white placeholder-gray-400 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm"
+              className="w-full p-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-positive-lime focus:border-positive-lime text-sm text-positive-dark-gray placeholder-gray-400"
               required
             ></textarea>
           </div>
@@ -151,7 +151,7 @@ export const CreateTopicModal: React.FC<CreateTopicModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-5 py-2 text-sm font-semibold text-white bg-positive-lime hover:bg-opacity-80 rounded-md transition-colors"
+              className="px-5 py-2 text-sm font-bold text-positive-dark-gray bg-positive-lime hover:bg-opacity-80 rounded-md transition-colors"
             >
               Criar Tópico
             </button>

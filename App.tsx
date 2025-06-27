@@ -5,7 +5,6 @@ import { MapPage } from './components/MapPage';
 import { InitiativesPage } from './components/InitiativesPage';
 import { InitiativeDetailsPage } from './components/InitiativeDetailsPage';
 import { ForumPage } from './components/ForumPage';
-import { ForumCategoryViewPage } from './components/ForumCategoryViewPage';
 import { ForumTopicDetailsPage } from './components/ForumTopicDetailsPage';
 import { CreateTopicModal } from './components/CreateTopicModal';
 import { CreateInitiativeModal, CreateInitiativeFormData } from './components/CreateInitiativeModal';
@@ -13,7 +12,7 @@ import { AddInitiativeTypeModal } from './components/AddInitiativeTypeModal'; //
 import { LoginPage } from './components/LoginPage'; 
 import { FilterButtons } from './components/FilterButtons';
 import { Page, Initiative, InitiativeCategory, ForumItemData, ForumTopic, ForumReply } from './types';
-import { INITIAL_INITIATIVES_DATA, ALL_FORUM_TOPICS as INITIAL_FORUM_TOPICS, FORUM_CATEGORY_VIEW_SIDEBAR_TAGS, FORUM_POPUP_DATA } from './constants';
+import { INITIAL_INITIATIVES_DATA, ALL_FORUM_TOPICS as INITIAL_FORUM_TOPICS, FORUM_CATEGORIES_DATA } from './constants';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.MAP);
@@ -21,7 +20,6 @@ const App: React.FC = () => {
   const [allInitiatives, setAllInitiatives] = useState<Initiative[]>(INITIAL_INITIATIVES_DATA);
   const [mapFilter, setMapFilter] = useState<InitiativeCategory | 'all'>(InitiativeCategory.COLETIVO);
   const [isForumPreviewOpen, setIsForumPreviewOpen] = useState(false);
-  const [selectedForumCategory, setSelectedForumCategory] = useState<ForumItemData | null>(null);
   const [selectedTopic, setSelectedTopic] = useState<ForumTopic | null>(null);
   const [isCreateTopicModalOpen, setIsCreateTopicModalOpen] = useState(false);
   const [allForumTopics, setAllForumTopics] = useState<ForumTopic[]>(INITIAL_FORUM_TOPICS);
@@ -39,12 +37,8 @@ const App: React.FC = () => {
       setSelectedInitiative(null);
     }
     
-    // Reset forum states if not navigating within the forum
-    if (page !== Page.FORUM && page !== Page.FORUM_TOPIC_DETAILS) {
-        setSelectedForumCategory(null);
-        setSelectedTopic(null);
-    } else if (page === Page.FORUM && selectedTopic) {
-        // If we go back to main forum page from nav, clear selected topic
+    // Reset topic if not navigating to topic details
+    if (page !== Page.FORUM_TOPIC_DETAILS) {
         setSelectedTopic(null);
     }
 
@@ -55,7 +49,7 @@ const App: React.FC = () => {
     setIsAddTypeModalOpen(false); // Close new modal on navigation
     setIsLoginModalOpen(false);
     window.scrollTo(0, 0); 
-  }, [selectedTopic]);
+  }, []);
 
   const handleShowInitiativeDetails = useCallback((initiative: Initiative) => {
     handleNavigate(Page.INITIATIVE_DETAILS, initiative);
@@ -77,20 +71,6 @@ const App: React.FC = () => {
     setIsForumPreviewOpen(prev => !prev);
   }, []);
 
-  const handleSelectForumCategory = useCallback((category: ForumItemData) => {
-    setSelectedForumCategory(category);
-    setSelectedTopic(null); // Ensure no topic is selected when viewing a category
-    setCurrentPage(Page.FORUM); 
-    window.scrollTo(0,0);
-  }, []);
-
-  const handleBackToForumMain = useCallback(() => {
-    setSelectedForumCategory(null);
-    setSelectedTopic(null);
-    setCurrentPage(Page.FORUM);
-    window.scrollTo(0,0);
-  }, []);
-
   const handleOpenCreateTopicModal = useCallback(() => {
     setIsCreateTopicModalOpen(true);
   }, []);
@@ -105,19 +85,18 @@ const App: React.FC = () => {
       categoryId: newTopicData.categoryId,
       title: newTopicData.title,
       author: 'Usuário Atual', 
+      authorAvatar: `https://i.pravatar.cc/150?u=current_user${Date.now()}`,
       lastReplyTime: 'agora mesmo',
       tags: newTopicData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
       replyCount: 0,
+      views: 0,
+      pinned: false,
       message: newTopicData.message,
       replies: [],
     };
     setAllForumTopics(prevTopics => [newTopic, ...prevTopics]);
     handleCloseCreateTopicModal();
-    const category = FORUM_POPUP_DATA.find(cat => cat.id === newTopicData.categoryId);
-    if (category) {
-      handleSelectForumCategory(category);
-    }
-  }, [handleCloseCreateTopicModal, handleSelectForumCategory]);
+  }, [handleCloseCreateTopicModal]);
   
   const handleSelectTopic = useCallback((topic: ForumTopic) => {
     setSelectedTopic(topic);
@@ -125,7 +104,7 @@ const App: React.FC = () => {
     window.scrollTo(0,0);
   }, []);
   
-  const handleBackToCategoryView = useCallback(() => {
+  const handleBackToForumList = useCallback(() => {
     setSelectedTopic(null);
     setCurrentPage(Page.FORUM);
     window.scrollTo(0, 0);
@@ -291,35 +270,26 @@ const App: React.FC = () => {
           />
         );
       case Page.FORUM:
-        if (selectedForumCategory) {
-          const topicsForCategory = allForumTopics.filter(topic => topic.categoryId === selectedForumCategory.id);
-          const categoryData = FORUM_POPUP_DATA.find(cat => cat.id === selectedForumCategory.id) || selectedForumCategory;
-          return (
-            <ForumCategoryViewPage 
-              categoryData={categoryData}
-              topics={topicsForCategory}
-              availableTags={FORUM_CATEGORY_VIEW_SIDEBAR_TAGS}
-              onBack={handleBackToForumMain}
-              onOpenCreateTopicModal={handleOpenCreateTopicModal}
-              onSelectTopic={handleSelectTopic}
-            />
-          );
-        }
-        return <ForumPage onSelectCategory={handleSelectForumCategory} />;
+        return <ForumPage
+          allTopics={allForumTopics}
+          categories={FORUM_CATEGORIES_DATA}
+          onSelectTopic={handleSelectTopic}
+          onOpenCreateTopicModal={handleOpenCreateTopicModal}
+        />;
       case Page.FORUM_TOPIC_DETAILS:
         if (selectedTopic) {
           return (
             <ForumTopicDetailsPage
               topic={selectedTopic}
-              onBack={handleBackToCategoryView}
+              onBack={handleBackToForumList}
               onAddReply={handleAddReply}
               onEditReply={handleEditReply}
               onDeleteReply={handleDeleteReply}
             />
           );
         }
-        // Fallback if no topic is selected, go back to the forum category view
-        handleBackToCategoryView();
+        // Fallback if no topic is selected, go back to the forum
+        handleBackToForumList();
         return null;
       case Page.INITIATIVES:
         return (
@@ -365,8 +335,7 @@ const App: React.FC = () => {
           isOpen={isCreateTopicModalOpen}
           onClose={handleCloseCreateTopicModal}
           onCreateTopic={handleCreateTopic}
-          forumCategories={FORUM_POPUP_DATA}
-          defaultCategoryId={selectedForumCategory?.id}
+          forumCategories={FORUM_CATEGORIES_DATA}
         />
       )}
       {isCreateInitiativeModalOpen && (

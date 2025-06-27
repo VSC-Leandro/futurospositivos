@@ -1,6 +1,6 @@
 
 
-import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, ForumSidebarTag, TimelineEvent, ForumReply } from './types';
+import { Initiative, InitiativeCategory, ForumItemData, ForumTag, ForumTopic, TimelineEvent, ForumReply } from './types';
 import { MegaphoneIcon, StarIcon, ConstructionIcon, BooksIcon } from './components/icons';
 
 export const INITIAL_INITIATIVES_DATA: Initiative[] = [
@@ -94,32 +94,21 @@ export const MAP_INITIAL_ZOOM: number = 4;
 export const MAP_TILE_URL: string = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png';
 export const MAP_ATTRIBUTION: string = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>';
 
+export const FORUM_CATEGORIES_DATA: ForumItemData[] = [
+    { id: 'comunicados', icon: MegaphoneIcon, title: 'Comunicados', description: 'Atualizações sobre a plataforma, reuniões e eventos.', count: 3, color: '#EF4444' },
+    { id: 'projetos_narrativas', icon: StarIcon, title: 'Projetos e Narrativas', description: 'Compartilhe e conheça iniciativas inspiradoras.', count: 2, color: '#F59E0B' },
+    { id: 'construcao_cenarios', icon: ConstructionIcon, title: 'Construção de Cenários', description: 'Discussões colaborativas sobre futuros.', count: 1, color: '#3B82F6' },
+    { id: 'metodologias_estudos', icon: BooksIcon, title: 'Metodologias e Estudos', description: 'Compartilhe inspirações e estudos.', count: 1, color: '#6366F1' },
+];
+
 export const FORUM_POPUP_DATA: ForumItemData[] = [
-  { id: 'comunicados', icon: MegaphoneIcon, title: 'COMUNICADOS', description: 'Atualizações sobre a plataforma, reuniões do comitê e eventos globais', count: 2, iconBgClass: 'bg-forum-comunicados-icon-bg', textColorClass: 'text-red-600' },
-  { id: 'projetos_narrativas', icon: StarIcon, title: 'PROJETOS E NARRATIVAS DE FUTUROS', description: 'Compartilhe e conheça iniciativas inspiradoras', count: 1, iconBgClass: 'bg-forum-projetos-icon-bg', textColorClass: 'text-amber-600' },
-  { id: 'construcao_cenarios', icon: ConstructionIcon, title: 'CONSTRUÇÃO DE CENÁRIOS', description: 'Discussões colaborativas sobre os cenários futuros que queremos', count: 0, iconBgClass: 'bg-forum-cenarios-icon-bg', textColorClass: 'text-blue-600' },
-  { id: 'metodologias_estudos', icon: BooksIcon, title: 'METODOLOGIAS E ESTUDOS', description: 'Espaço para apresentar metodologias, compartilhar inspirações e difundir estudos', count: 1, iconBgClass: 'bg-forum-estudos-icon-bg', textColorClass: 'text-indigo-600' },
+    { ...FORUM_CATEGORIES_DATA[0], iconBgClass: 'bg-red-100', textColorClass: 'text-red-600' },
+    { ...FORUM_CATEGORIES_DATA[1], iconBgClass: 'bg-amber-100', textColorClass: 'text-amber-600' },
+    { ...FORUM_CATEGORIES_DATA[2], iconBgClass: 'bg-blue-100', textColorClass: 'text-blue-600' },
+    { ...FORUM_CATEGORIES_DATA[3], iconBgClass: 'bg-indigo-100', textColorClass: 'text-indigo-600' },
 ];
 
-export const FORUM_PAGE_CATEGORIES: ForumTag[] = [
-  { id: 'agro', label: 'AGROECOLOGIA', type: 'category' },
-  { id: 'espiritualidade', label: 'ESPIRITUALIDADE', type: 'category' },
-  { id: 'tecnologia', label: 'TECNOLOGIA', type: 'category' },
-  { id: 'cidades', label: 'CIDADES', type: 'category' },
-  { id: 'artes', label: 'ARTES', type: 'category' },
-  { id: 'juventude', label: 'JUVENTUDE', type: 'category' },
-];
-
-export const FORUM_PAGE_TAGS: ForumTag[] = [
-  { id: 'bugfix', label: '#bugfix', type: 'tag' },
-  { id: 'q&a', label: '#Q&A', type: 'tag' },
-  { id: 'suggestions', label: '#suggestions', type: 'tag' },
-  { id: 'cop30', label: '#COP30', type: 'tag' },
-  { id: 'ia', label: '#IA', type: 'tag' },
-  { id: 'knowhow', label: '#know-how', type: 'tag' },
-];
-
-export const FORUM_PAGE_MAIN_SECTIONS: ForumItemData[] = FORUM_POPUP_DATA;
+export const FORUM_PAGE_MAIN_SECTIONS: ForumItemData[] = FORUM_CATEGORIES_DATA;
 
 
 export const ALL_FORUM_TOPICS: ForumTopic[] = [
@@ -128,9 +117,12 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     categoryId: 'comunicados', 
     title: 'Manutenção programada para o próximo domingo', 
     author: 'Admin', 
-    lastReplyTime: '1h atrás', 
-    tags: ['#bugfix'], 
+    authorAvatar: 'https://i.pravatar.cc/150?u=admin',
+    lastReplyTime: '5m atrás', 
+    tags: ['manutenção', 'servidores'], 
     replyCount: 3,
+    views: 125,
+    pinned: true,
     message: 'Olá a todos! Gostaríamos de informar que realizaremos uma manutenção programada em nossos servidores no próximo domingo, entre as 02:00 e 04:00 da manhã (horário de Brasília). Durante este período, a plataforma poderá apresentar instabilidade. Agradecemos a compreensão.',
     replies: [
       { id: 'reply1-1', author: 'João Pereira', authorAvatar: 'https://i.pravatar.cc/150?u=jp', timestamp: '1h atrás', content: 'Obrigado pelo aviso! Bom trabalho para a equipe.' },
@@ -139,35 +131,16 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     ]
   },
   { 
-    id: 'topic2', 
-    categoryId: 'comunicados', 
-    title: 'Bem-vindos à nova versão da plataforma!', 
-    author: 'Admin', 
-    lastReplyTime: '1d atrás', 
-    tags: ['#Q&A'], 
-    replyCount: 0,
-    message: 'É com grande prazer que anunciamos o lançamento da v2 da nossa plataforma! Explore as novas funcionalidades e nos diga o que achou. Estamos abertos a feedbacks e sugestões nos canais apropriados. Divirtam-se!',
-    replies: []
-  },
-  { 
-    id: 'topic3', 
-    categoryId: 'comunicados', 
-    title: 'Atualização dos Termos de Serviço', 
-    author: 'Equipe Legal', 
-    lastReplyTime: '3d atrás', 
-    tags: ['#anúncio'], 
-    replyCount: 0,
-    message: 'Prezados usuários, atualizamos nossos Termos de Serviço para refletir as novas diretrizes de privacidade. Por favor, leiam com atenção. O uso contínuo da plataforma implica na aceitação dos novos termos.',
-    replies: []
-  },
-  { 
     id: 'topic4', 
     categoryId: 'projetos_narrativas', 
     title: 'Ideia para projeto de reflorestamento na Amazônia', 
     author: 'Maria Silva', 
-    lastReplyTime: '4h atrás', 
-    tags: ['#ideia', '#reflorestamento'], 
+    authorAvatar: 'https://i.pravatar.cc/150?u=ms',
+    lastReplyTime: '2h atrás', 
+    tags: ['ideia', 'reflorestamento', 'amazonia'], 
     replyCount: 2,
+    views: 88,
+    pinned: false,
     message: 'Pessoal, tive uma ideia para um projeto de reflorestamento em áreas degradadas na Amazônia, utilizando drones para o plantio de sementes. O que acham? Alguém com experiência na área para discutir a viabilidade?',
     replies: [
         { id: 'reply4-1', author: 'Dr. Ana Beatriz', authorAvatar: 'https://i.pravatar.cc/150?u=ab', timestamp: '3h atrás', content: 'Excelente iniciativa, Maria! Já existem alguns estudos sobre a eficácia de drones. Posso compartilhar alguns links. O principal desafio é o monitoramento pós-plantio.' },
@@ -175,14 +148,17 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     ]
   },
   { 
-    id: 'topic5', 
-    categoryId: 'projetos_narrativas', 
-    title: 'Narrativa inspiradora: Horta Comunitária Transforma Vidas', 
-    author: 'João Pereira', 
-    lastReplyTime: '1sem atrás', 
-    tags: ['#história', '#comunidade'], 
+    id: 'topic2', 
+    categoryId: 'comunicados', 
+    title: 'Bem-vindos à nova versão da plataforma!', 
+    author: 'Admin', 
+    authorAvatar: 'https://i.pravatar.cc/150?u=admin',
+    lastReplyTime: '1d atrás', 
+    tags: ['anúncio', 'v2'], 
     replyCount: 0,
-    message: 'Queria compartilhar a história da horta comunitária do nosso bairro. Começou pequena e hoje abastece mais de 50 famílias, além de ser um espaço incrível de convivência. Vou postar fotos em breve!',
+    views: 230,
+    pinned: false,
+    message: 'É com grande prazer que anunciamos o lançamento da v2 da nossa plataforma! Explore as novas funcionalidades e nos diga o que achou. Estamos abertos a feedbacks e sugestões nos canais apropriados. Divirtam-se!',
     replies: []
   },
   { 
@@ -190,9 +166,12 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     categoryId: 'construcao_cenarios', 
     title: 'Brainstorm: Cidades Sustentáveis em 2050', 
     author: 'Carlos Andrade', 
+    authorAvatar: 'https://i.pravatar.cc/150?u=ca',
     lastReplyTime: '10h atrás', 
-    tags: ['#futuro', '#cidades'], 
+    tags: ['futuro', 'cidades', 'sustentabilidade'], 
     replyCount: 0,
+    views: 55,
+    pinned: false,
     message: 'Como vocês imaginam as cidades em 2050? Vamos construir juntos um cenário otimista e sustentável. Pensem em transporte, moradia, energia, etc.',
     replies: []
   },
@@ -201,25 +180,41 @@ export const ALL_FORUM_TOPICS: ForumTopic[] = [
     categoryId: 'metodologias_estudos', 
     title: 'Estudo de caso: Agrofloresta e Segurança Alimentar', 
     author: 'Dr. Ana Beatriz', 
+    authorAvatar: 'https://i.pravatar.cc/150?u=ab',
     lastReplyTime: '2sem atrás', 
-    tags: ['#pesquisa', '#agroecologia'], 
+    tags: ['pesquisa', 'agroecologia'], 
     replyCount: 0,
+    views: 150,
+    pinned: false,
     message: 'Segue o link para meu último estudo de caso sobre a implementação de sistemas agroflorestais em pequenas propriedades e seu impacto na segurança alimentar. Aberta para discussões e perguntas. [link para o estudo]',
     replies: []
   },
-];
-
-export const FORUM_CATEGORY_VIEW_SIDEBAR_TAGS: ForumSidebarTag[] = [
-  { id: 'bugfix', label: '#bugfix', colorClass: 'bg-blue-100 text-blue-700 hover:bg-blue-200'},
-  { id: 'q&a', label: '#Q&A', colorClass: 'bg-purple-100 text-purple-700 hover:bg-purple-200'},
-  { id: 'suggestions', label: '#suggestions', colorClass: 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'},
-  { id: 'anúncio', label: '#anúncio', colorClass: 'bg-green-100 text-green-700 hover:bg-green-200'},
-  { id: 'ideia', label: '#ideia', colorClass: 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'},
-  { id: 'reflorestamento', label: '#reflorestamento', colorClass: 'bg-teal-100 text-teal-700 hover:bg-teal-200'},
-  { id: 'história', label: '#história', colorClass: 'bg-pink-100 text-pink-700 hover:bg-pink-200'},
-  { id: 'comunidade', label: '#comunidade', colorClass: 'bg-orange-100 text-orange-700 hover:bg-orange-200'},
-  { id: 'futuro', label: '#futuro', colorClass: 'bg-cyan-100 text-cyan-700 hover:bg-cyan-200'},
-  { id: 'cidades', label: '#cidades', colorClass: 'bg-lime-100 text-lime-700 hover:bg-lime-200'},
-  { id: 'pesquisa', label: '#pesquisa', colorClass: 'bg-gray-200 text-gray-700 hover:bg-gray-300'},
-  { id: 'agroecologia', label: '#agroecologia', colorClass: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'},
+  { 
+    id: 'topic5', 
+    categoryId: 'projetos_narrativas', 
+    title: 'Narrativa inspiradora: Horta Comunitária Transforma Vidas', 
+    author: 'João Pereira', 
+    authorAvatar: 'https://i.pravatar.cc/150?u=jp',
+    lastReplyTime: '1sem atrás', 
+    tags: ['história', 'comunidade'], 
+    replyCount: 0,
+    views: 99,
+    pinned: false,
+    message: 'Queria compartilhar a história da horta comunitária do nosso bairro. Começou pequena e hoje abastece mais de 50 famílias, além de ser um espaço incrível de convivência. Vou postar fotos em breve!',
+    replies: []
+  },
+  { 
+    id: 'topic3', 
+    categoryId: 'comunicados', 
+    title: 'Atualização dos Termos de Serviço', 
+    author: 'Equipe Legal', 
+    authorAvatar: 'https://i.pravatar.cc/150?u=legal',
+    lastReplyTime: '3d atrás', 
+    tags: ['legal', 'termos'], 
+    replyCount: 0,
+    views: 412,
+    pinned: false,
+    message: 'Prezados usuários, atualizamos nossos Termos de Serviço para refletir as novas diretrizes de privacidade. Por favor, leiam com atenção. O uso contínuo da plataforma implica na aceitação dos novos termos.',
+    replies: []
+  },
 ];
