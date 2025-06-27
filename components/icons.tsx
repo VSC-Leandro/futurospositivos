@@ -125,3 +125,35 @@ export const ClockIcon: React.FC<{ className?: string }> = ({ className }) => (
     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" clipRule="evenodd" />
   </svg>
 );
+
+export const BoldIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.6 10.79C16.57 10.11 17 9.25 17 8.15C17 6.42 15.84 5 14.25 5H9V18H14.75C16.34 18 17.5 16.83 17.5 15.25C17.5 14.15 16.97 13.2 16.09 12.64C16.81 12.23 17.25 11.45 17.25 10.5C17.25 9.44 16.59 8.5 15.6 7.91V10.79ZM11 7H14C14.83 7 15.5 7.67 15.5 8.5C15.5 9.33 14.83 10 14 10H11V7ZM11 16V12H14.5C15.33 12 16 12.67 16 13.5C16 14.33 15.33 15 14.5 15H11.5L11 16Z"/>
+  </svg>
+);
+
+export const ItalicIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 5.5H13L9 18.5H6L10 5.5ZM15 5.5H18L14 18.5H11L15 5.5Z"/>
+  </svg>
+);
+
+export const LinkIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17 7H13V9H17C18.65 9 20 10.35 20 12C20 13.65 18.65 15 17 15H13V17H17C19.76 17 22 14.76 22 12C22 9.24 19.76 7 17 7ZM7 12C7 13.65 8.35 15 10 15H11V17H7C4.24 17 2 14.76 2 12C2 9.24 4.24 7 7 7H11V9H7C5.35 9 4 10.35 4 12Z"/>
+    <path d="M8 11H16V13H8V11Z"/>
+  </svg>
+);
+
+export const EditIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+    <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+  </svg>
+);
+
+export const TrashIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className || "h-5 w-5"} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+  </svg>
+);

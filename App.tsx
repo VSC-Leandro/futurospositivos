@@ -162,6 +162,49 @@ const App: React.FC = () => {
     }
   }, [allForumTopics]);
 
+  const handleEditReply = useCallback((topicId: string, replyId: string, newContent: string) => {
+    let updatedTopic: ForumTopic | null = null;
+    const updatedTopics = allForumTopics.map(topic => {
+      if (topic.id === topicId) {
+        const updatedReplies = (topic.replies || []).map(reply => {
+          if (reply.id === replyId) {
+            return { ...reply, content: newContent, timestamp: `${reply.timestamp} (editado)` };
+          }
+          return reply;
+        });
+        updatedTopic = { ...topic, replies: updatedReplies };
+        return updatedTopic;
+      }
+      return topic;
+    });
+
+    setAllForumTopics(updatedTopics);
+    if (updatedTopic) {
+      setSelectedTopic(updatedTopic);
+    }
+  }, [allForumTopics]);
+
+  const handleDeleteReply = useCallback((topicId: string, replyId: string) => {
+    let updatedTopic: ForumTopic | null = null;
+    const updatedTopics = allForumTopics.map(topic => {
+      if (topic.id === topicId) {
+        const updatedReplies = (topic.replies || []).filter(reply => reply.id !== replyId);
+        updatedTopic = { 
+          ...topic, 
+          replies: updatedReplies,
+          replyCount: updatedReplies.length,
+        };
+        return updatedTopic;
+      }
+      return topic;
+    });
+
+    setAllForumTopics(updatedTopics);
+    if (updatedTopic) {
+      setSelectedTopic(updatedTopic);
+    }
+  }, [allForumTopics]);
+
 
   // Create Initiative Modal Handlers
   const handleOpenCreateInitiativeModal = useCallback((defaultType?: InitiativeCategory) => {
@@ -270,6 +313,8 @@ const App: React.FC = () => {
               topic={selectedTopic}
               onBack={handleBackToCategoryView}
               onAddReply={handleAddReply}
+              onEditReply={handleEditReply}
+              onDeleteReply={handleDeleteReply}
             />
           );
         }
