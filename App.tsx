@@ -10,7 +10,6 @@ import { CreateTopicModal } from './components/CreateTopicModal';
 import { CreateInitiativeModal, CreateInitiativeFormData } from './components/CreateInitiativeModal';
 import { AddInitiativeTypeModal } from './components/AddInitiativeTypeModal'; // New Import
 import { LoginPage } from './components/LoginPage'; 
-import { FilterButtons } from './components/FilterButtons';
 import { Page, Initiative, InitiativeCategory, ForumItemData, ForumTopic, ForumReply } from './types';
 import { INITIAL_INITIATIVES_DATA, ALL_FORUM_TOPICS as INITIAL_FORUM_TOPICS, FORUM_CATEGORIES_DATA } from './constants';
 
@@ -322,11 +321,9 @@ const App: React.FC = () => {
         onNavigate={handleNavigate}
         showMapFilters={currentPage === Page.MAP}
         onOpenLoginModal={handleOpenLoginModal}
-      >
-        {currentPage === Page.MAP && (
-          <FilterButtons currentFilter={mapFilter} onFilterChange={handleMapFilterChange} />
-        )}
-      </Header>
+        currentFilter={mapFilter}
+        onFilterChange={handleMapFilterChange}
+      />
       <main className="flex-grow flex flex-col relative">
         {renderPage()}
       </main>

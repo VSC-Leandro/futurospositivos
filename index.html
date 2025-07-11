@@ -17,6 +17,9 @@
         theme: {
           extend: {
             colors: {
+              'login-button-bg': '#3f5b13',
+              'login-button-text': '#a7c64a',
+              'nav-default': '#3a3a3a',
               'positive-lime': '#CDDC39',
               'positive-dark-gray': '#383838',
               'positive-light-gray': '#E0E0E0', // Used for some borders, backgrounds
@@ -29,6 +32,7 @@
               'forum-projetos-icon-bg': '#FEF3C7', // Light yellow
               'forum-cenarios-icon-bg': '#DBEAFE',    // Light blue
               'forum-estudos-icon-bg': '#E0E7FF',    // Light indigo
+              'forum-positive-bg': '#44b2a0',
             },
             fontFamily: {
               inter: ['Inter', 'sans-serif'],
@@ -53,7 +57,7 @@
       .custom-map-marker-dot {
         width: 16px !important;
         height: 16px !important;
-        background-color: #CDDC39; /* positive-lime */
+        background-color: #44b2a0 !important; /* forum-positive-bg */
         border-radius: 50%;
         border: 2px solid white;
         box-shadow: 0 0 5px rgba(0,0,0,0.3);
@@ -61,28 +65,41 @@
 
       /* Custom Leaflet Popup Styles (New Design) */
       .leaflet-popup-content-wrapper {
-        background-color: #E6F5C7 !important; /* positive-popup-bg */
+        background-color: #DCE5B1 !important; /* positive-green-accent */
         color: #383838 !important; /* positive-dark-gray */
-        border: 1px solid #CDDC39 !important; /* positive-lime */
-        border-radius: 8px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+        padding: 0 !important;
       }
       .leaflet-popup-content {
-        margin: 12px !important;
+        margin: 0 !important;
         font-family: 'Inter', sans-serif;
-        font-size: 0.875rem;
-        line-height: 1.25rem;
+        width: auto !important;
+        min-width: 260px !important;
       }
-      .leaflet-popup-tip {
-        background-color: #E6F5C7 !important; /* positive-popup-bg */
+      .leaflet-popup-tip-container, .leaflet-popup-tip {
+        display: none !important;
       }
       .leaflet-container a.leaflet-popup-close-button {
-        color: #383838 !important; /* positive-dark-gray */
-        top: 8px !important;
-        right: 8px !important;
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        width: 28px !important;
+        height: 28px !important;
+        background-color: #3f5b13 !important; /* login-button-bg */
+        color: white !important;
+        border-radius: 50% !important;
+        font: bold 18px 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+        line-height: 28px !important;
+        text-align: center !important;
+        transition: background-color 0.2s;
+        padding: 0 !important;
+        z-index: 10;
       }
       .leaflet-container a.leaflet-popup-close-button:hover {
-        color: #000000 !important;
+        background-color: #2e440e !important;
+        color: white !important;
       }
       .leaflet-control-zoom {
         display: none !important;

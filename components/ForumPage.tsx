@@ -21,7 +21,7 @@ const TopicRow: React.FC<{ topic: ForumTopic; category?: ForumItemData; onSelect
   return (
     <tr
       onClick={() => onSelectTopic(topic)}
-      className="border-b border-positive-light-gray last:border-b-0 hover:bg-positive-green-accent/30 cursor-pointer transition-colors duration-150"
+      className="border-b border-forum-positive-bg/10 last:border-b-0 hover:bg-forum-positive-bg/5 cursor-pointer transition-colors duration-150"
     >
       <td className="p-4 align-top">
         <div className="flex flex-col">
@@ -109,13 +109,13 @@ export const ForumPage: React.FC<ForumPageProps> = ({ allTopics, categories, onS
               <div>
                 <button
                   onClick={onOpenCreateTopicModal}
-                  className="w-full flex items-center justify-center bg-positive-lime text-positive-dark-gray font-bold py-2.5 px-4 rounded-lg hover:bg-opacity-80 transition-colors text-sm"
+                  className="w-full flex items-center justify-center bg-forum-positive-bg text-white font-bold py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors text-sm"
                 >
                   <PlusIcon className="w-4 h-4 mr-2" />
                   CRIAR TÓPICO
                 </button>
               </div>
-              <nav className="bg-white p-4 rounded-lg shadow-md space-y-1">
+              <nav className="bg-white p-4 rounded-lg shadow-md space-y-1 border border-forum-positive-bg/30">
                 <h3 className="px-3 pb-2 text-xs font-bold text-gray-500 uppercase tracking-wider">Categorias</h3>
                  <button
                     onClick={() => setSelectedCategoryId('all')}
@@ -140,12 +140,12 @@ export const ForumPage: React.FC<ForumPageProps> = ({ allTopics, categories, onS
           {/* Main Content */}
           <main className="md:col-span-9 lg:col-span-10">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5">
-              <div className="flex items-center border-b border-positive-light-gray">
+              <div className="flex items-center border-b border-forum-positive-bg/20">
                 {TABS.map(tab => (
                    <button
                       key={tab}
                       onClick={() => setActiveSort(tab)}
-                      className={`px-4 py-2 text-sm font-semibold transition-colors border-b-2 -mb-px ${activeSort === tab ? 'text-positive-dark-gray border-positive-lime' : 'text-gray-500 border-transparent hover:text-positive-dark-gray hover:border-gray-300'}`}
+                      className={`px-4 py-2 text-sm font-semibold transition-colors border-b-2 -mb-px ${activeSort === tab ? 'text-positive-dark-gray border-forum-positive-bg' : 'text-gray-500 border-transparent hover:text-positive-dark-gray hover:border-forum-positive-bg/40'}`}
                     >
                       {tab}
                    </button>
@@ -156,7 +156,7 @@ export const ForumPage: React.FC<ForumPageProps> = ({ allTopics, categories, onS
             <div className="bg-white rounded-lg shadow-forum-card overflow-hidden">
                <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-positive-light-gray bg-gray-50/50">
+                  <tr className="border-b-2 border-forum-positive-bg/20 bg-gray-50/50">
                     <th className="p-4 text-left font-semibold text-gray-500 uppercase tracking-wider text-xs">Tópico</th>
                     <th className="p-4 text-center font-semibold text-gray-500 uppercase tracking-wider text-xs w-32">Participantes</th>
                     <th className="p-4 text-center font-semibold text-gray-500 uppercase tracking-wider text-xs w-24">Respostas</th>
