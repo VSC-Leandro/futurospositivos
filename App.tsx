@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Header } from './components/Header';
 import { MapPage } from './components/MapPage';
 import { InitiativesPage } from './components/InitiativesPage';
@@ -17,7 +17,8 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.MAP);
   const [selectedInitiative, setSelectedInitiative] = useState<Initiative | null>(null);
   const [allInitiatives, setAllInitiatives] = useState<Initiative[]>(INITIAL_INITIATIVES_DATA);
-  const [mapFilter, setMapFilter] = useState<InitiativeCategory | 'all'>(InitiativeCategory.COLETIVO);
+  const [mapTypeFilters, setMapTypeFilters] = useState<Set<InitiativeCategory>>(new Set(Object.values(InitiativeCategory)));
+  const [searchSelectedInitiative, setSearchSelectedInitiative] = useState<Initiative | null>(null); // For map search
   const [isForumPreviewOpen, setIsForumPreviewOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<ForumTopic | null>(null);
   const [isCreateTopicModalOpen, setIsCreateTopicModalOpen] = useState(false);
@@ -62,8 +63,9 @@ const App: React.FC = () => {
     }
   }, [handleNavigate, selectedInitiative]);
   
-  const handleMapFilterChange = useCallback((filter: InitiativeCategory | 'all') => {
-    setMapFilter(filter);
+  const handleMapTypeFilterChange = useCallback((category: InitiativeCategory) => {
+    // A pedido do usuário, esta funcionalidade foi desativada temporariamente.
+    // Os botões de filtro não afetarão a exibição do mapa.
   }, []);
 
   const toggleForumPreview = useCallback(() => {
@@ -254,6 +256,17 @@ const App: React.FC = () => {
     handleCloseLoginModal();
   }, [handleCloseLoginModal]);
 
+  // Map search handlers
+  const handleSearchSelect = useCallback((initiative: Initiative) => {
+    setSearchSelectedInitiative(initiative);
+    setCurrentPage(Page.MAP); // Ensure map is visible
+    setIsForumPreviewOpen(false); // Close other popups
+  }, []);
+
+  const handleClearSearchSelection = useCallback(() => {
+    setSearchSelectedInitiative(null);
+  }, []);
+
 
   const renderPage = () => {
     switch (currentPage) {
@@ -265,7 +278,10 @@ const App: React.FC = () => {
             onNavigate={handleNavigate}
             isForumPreviewOpen={isForumPreviewOpen}
             onToggleForumPreview={toggleForumPreview}
-            onOpenAddTypeModal={handleOpenAddTypeModal} // Pass handler to MapPage
+            onOpenAddTypeModal={handleOpenAddTypeModal}
+            typeFilters={mapTypeFilters}
+            searchSelectedInitiative={searchSelectedInitiative}
+            onClearSearchSelection={handleClearSearchSelection}
           />
         );
       case Page.FORUM:
@@ -308,7 +324,10 @@ const App: React.FC = () => {
               onNavigate={handleNavigate}
               isForumPreviewOpen={isForumPreviewOpen}
               onToggleForumPreview={toggleForumPreview}
-              onOpenAddTypeModal={handleOpenAddTypeModal} // Pass handler to MapPage
+              onOpenAddTypeModal={handleOpenAddTypeModal}
+              typeFilters={mapTypeFilters}
+              searchSelectedInitiative={searchSelectedInitiative}
+              onClearSearchSelection={handleClearSearchSelection}
             />
         );
     }
@@ -321,8 +340,10 @@ const App: React.FC = () => {
         onNavigate={handleNavigate}
         showMapFilters={currentPage === Page.MAP}
         onOpenLoginModal={handleOpenLoginModal}
-        currentFilter={mapFilter}
-        onFilterChange={handleMapFilterChange}
+        mapTypeFilters={mapTypeFilters}
+        onMapTypeFilterChange={handleMapTypeFilterChange}
+        initiatives={allInitiatives}
+        onSearchSelect={handleSearchSelect}
       />
       <main className="flex-grow flex flex-col relative">
         {renderPage()}

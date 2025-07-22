@@ -33,6 +33,7 @@
               'forum-cenarios-icon-bg': '#DBEAFE',    // Light blue
               'forum-estudos-icon-bg': '#E0E7FF',    // Light indigo
               'forum-positive-bg': '#44b2a0',
+              'cadastrar-button-bg': '#65C4B3',
             },
             fontFamily: {
               inter: ['Inter', 'sans-serif'],
@@ -53,11 +54,13 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+      .custom-map-marker-dot-wrapper {
+        /* This wrapper is used to center the dot, no background here */
+      }
       /* Custom Leaflet Marker Styles (simple dot) */
       .custom-map-marker-dot {
         width: 16px !important;
         height: 16px !important;
-        background-color: #44b2a0 !important; /* forum-positive-bg */
         border-radius: 50%;
         border: 2px solid white;
         box-shadow: 0 0 5px rgba(0,0,0,0.3);
