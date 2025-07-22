@@ -1,25 +1,26 @@
+
 import React from 'react';
 import { InitiativeCategory } from '../types';
 import { InstitutionIcon, ProjectIcon, CollectiveIcon } from './icons';
 
 interface FilterButtonProps {
-  category: InitiativeCategory | 'all';
+  category: InitiativeCategory;
   label: string;
   icon: React.ReactNode;
-  currentFilter: InitiativeCategory | 'all';
-  onFilterChange: (category: InitiativeCategory | 'all') => void;
+  isActive: boolean;
+  onFilterChange: (category: InitiativeCategory) => void;
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ category, label, icon, currentFilter, onFilterChange }) => {
-  const isActive = currentFilter === category;
+const FilterButton: React.FC<FilterButtonProps> = ({ category, label, icon, isActive, onFilterChange }) => {
   return (
     <button
       onClick={() => onFilterChange(category)}
+      aria-pressed={isActive}
       className={`flex items-center space-x-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border-2 
                   text-xs sm:text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-forum-positive-bg/50
                   ${isActive 
-                    ? 'bg-positive-green-accent border-forum-positive-bg text-forum-positive-bg' 
-                    : 'bg-positive-bg-base border-forum-positive-bg text-forum-positive-bg hover:bg-positive-green-accent/60'}`}
+                    ? 'bg-forum-positive-bg border-forum-positive-bg text-white' 
+                    : 'bg-white border-forum-positive-bg text-forum-positive-bg hover:bg-positive-green-accent/60'}`}
     >
       {icon}
       <span className="hidden sm:inline">{label}</span>
@@ -30,34 +31,41 @@ const FilterButton: React.FC<FilterButtonProps> = ({ category, label, icon, curr
 
 
 interface FilterButtonsProps {
-  currentFilter: InitiativeCategory | 'all';
-  onFilterChange: (category: InitiativeCategory | 'all') => void;
+  activeFilters: Set<InitiativeCategory>;
+  onFilterChange: (category: InitiativeCategory) => void;
 }
 
-export const FilterButtons: React.FC<FilterButtonsProps> = ({ currentFilter, onFilterChange }) => {
+export const FilterButtons: React.FC<FilterButtonsProps> = ({ activeFilters, onFilterChange }) => {
+  const buttonData = [
+    {
+      category: InitiativeCategory.INSTITUICAO,
+      label: "INSTITUIÇÃO",
+      icon: <InstitutionIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+    },
+    {
+      category: InitiativeCategory.PROJETO,
+      label: "PROJETOS",
+      icon: <ProjectIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+    },
+    {
+      category: InitiativeCategory.COLETIVO,
+      label: "COLETIVOS",
+      icon: <CollectiveIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+    }
+  ];
+  
   return (
     <>
-      <FilterButton 
-        category={InitiativeCategory.INSTITUICAO} 
-        label="INSTITUIÇÃO" 
-        icon={<InstitutionIcon className="h-4 w-4 sm:h-5 sm:w-5"/>} 
-        currentFilter={currentFilter} 
-        onFilterChange={onFilterChange} 
-      />
-      <FilterButton 
-        category={InitiativeCategory.PROJETO} 
-        label="PROJETOS" 
-        icon={<ProjectIcon className="h-4 w-4 sm:h-5 sm:w-5"/>} 
-        currentFilter={currentFilter} 
-        onFilterChange={onFilterChange} 
-      />
-      <FilterButton 
-        category={InitiativeCategory.COLETIVO} 
-        label="COLETIVOS" 
-        icon={<CollectiveIcon className="h-4 w-4 sm:h-5 sm:w-5"/>} 
-        currentFilter={currentFilter} 
-        onFilterChange={onFilterChange} 
-      />
+      {buttonData.map(data => (
+          <FilterButton 
+            key={data.category}
+            category={data.category} 
+            label={data.label} 
+            icon={data.icon} 
+            isActive={activeFilters.has(data.category)}
+            onFilterChange={onFilterChange} 
+          />
+      ))}
     </>
   );
 };

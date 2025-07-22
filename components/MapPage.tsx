@@ -1,10 +1,14 @@
 
+
+
+
 import React, { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import { Initiative, Page, InitiativeCategory } from '../types';
 import { MAP_INITIAL_CENTER, MAP_INITIAL_ZOOM, MAP_TILE_URL, MAP_ATTRIBUTION } from '../constants';
 import { ForumIcon, PlusIcon } from './icons'; // BrazilFlagIcon removed as it's directly inlined
 import { ForumPreviewPopup } from './ForumPreviewPopup';
+import { getInitiativeColor } from './utils';
 
 interface MapPageProps {
   initiatives: Initiative[];
@@ -12,7 +16,10 @@ interface MapPageProps {
   onNavigate: (page: Page) => void;
   isForumPreviewOpen: boolean;
   onToggleForumPreview: () => void;
-  onOpenAddTypeModal: () => void; // New prop to open Add Initiative Type modal
+  onOpenAddTypeModal: () => void;
+  typeFilters: Set<InitiativeCategory>;
+  searchSelectedInitiative: Initiative | null;
+  onClearSearchSelection: () => void;
 }
 
 export const MapPage: React.FC<MapPageProps> = ({ 
@@ -21,28 +28,30 @@ export const MapPage: React.FC<MapPageProps> = ({
   onNavigate, 
   isForumPreviewOpen, 
   onToggleForumPreview,
-  onOpenAddTypeModal // Destructure new prop
+  onOpenAddTypeModal,
+  typeFilters,
+  searchSelectedInitiative,
+  onClearSearchSelection,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const markersRef = useRef<L.Marker[]>([]);
+  const markersRef = useRef<Map<number, L.Marker>>(new Map());
   
-  const [currentMapFilter, setCurrentMapFilter] = React.useState<InitiativeCategory | 'all'>(InitiativeCategory.COLETIVO);
-
-
   const renderMarkers = useCallback(() => {
     if (!mapRef.current) return;
 
-    markersRef.current.forEach(marker => mapRef.current?.removeLayer(marker));
-    markersRef.current = [];
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current.clear();
 
     const filteredInitiatives = initiatives.filter(
-      item => currentMapFilter === 'all' || item.type === currentMapFilter
+      item => typeFilters.has(item.type)
     );
 
     filteredInitiatives.forEach(item => {
+      const markerColor = getInitiativeColor(item.tags);
       const customIcon = L.divIcon({ 
-        className: 'custom-map-marker-dot',
+        className: 'custom-map-marker-dot-wrapper',
+        html: `<div class="custom-map-marker-dot" style="background-color: ${markerColor};"></div>`,
         iconSize: [16, 16],
       });
       
@@ -82,9 +91,9 @@ export const MapPage: React.FC<MapPageProps> = ({
       }
             
       marker.bindPopup(popupEl, { minWidth: 260, closeButton: true });
-      markersRef.current.push(marker);
+      markersRef.current.set(item.id, marker);
     });
-  }, [initiatives, currentMapFilter, onShowInitiativeDetails]);
+  }, [initiatives, typeFilters, onShowInitiativeDetails]);
 
   useEffect(() => {
     if (mapContainerRef.current && !mapRef.current) {
@@ -108,6 +117,34 @@ export const MapPage: React.FC<MapPageProps> = ({
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Effect to handle flying to a selected initiative from search
+  useEffect(() => {
+    if (searchSelectedInitiative && mapRef.current) {
+      const marker = markersRef.current.get(searchSelectedInitiative.id);
+      if (marker) {
+        const map = mapRef.current;
+        const targetLatLng = marker.getLatLng();
+        
+        // Fly to the marker, using a more detailed zoom level
+        const targetZoom = Math.max(map.getZoom() ?? MAP_INITIAL_ZOOM, 15);
+
+        map.flyTo(targetLatLng, targetZoom, {
+          animate: true,
+          duration: 1.5, // seconds
+        });
+
+        // After the animation, open the popup and clear the state
+        map.once('moveend', () => {
+          marker.openPopup();
+          onClearSearchSelection();
+        });
+      } else {
+        // If for some reason the marker isn't on the map (e.g., filtered out), just clear the selection
+        onClearSearchSelection();
+      }
+    }
+  }, [searchSelectedInitiative, onClearSearchSelection]);
 
 
   return (

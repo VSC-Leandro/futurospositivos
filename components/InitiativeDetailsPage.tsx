@@ -2,26 +2,35 @@
 import React from 'react';
 import { Initiative, ProjectSummary, InitiativeCategory } from '../types';
 import { BackArrowIcon, InstitutionIcon, CarIcon, FoodIcon, WifiIcon, ClockIcon } from './icons'; 
+import { getTagStyle } from './utils';
 
 interface ProjectSummaryCardProps {
   project: ProjectSummary;
 }
 
-const ProjectSummaryCard: React.FC<ProjectSummaryCardProps> = ({ project }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
-    <img src={project.imageUrl} alt={project.name} className="w-full h-40 object-cover"/>
-    <div className="p-4">
-      <h4 className="font-bold text-lg text-positive-dark-gray mb-1">{project.name}</h4>
-      <p className="text-xs text-gray-600 mb-2 h-16 overflow-hidden">{project.description.substring(0,100)}...</p>
-      <p className="text-xs font-semibold mb-3">
-        <span className="bg-positive-green-accent text-positive-dark-gray px-2 py-0.5 rounded">OBJETIVO: {project.objective}</span>
-      </p>
-      <button className="w-full bg-positive-button-subtle-bg text-positive-dark-gray font-semibold text-sm py-2 rounded hover:bg-gray-300 transition-colors">
-        VEJA MAIS
-      </button>
+const ProjectSummaryCard: React.FC<ProjectSummaryCardProps> = ({ project }) => {
+  const objectiveStyle = getTagStyle(project.objective);
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+      <img src={project.imageUrl} alt={project.name} className="w-full h-40 object-cover"/>
+      <div className="p-4">
+        <h4 className="font-bold text-lg text-positive-dark-gray mb-1">{project.name}</h4>
+        <p className="text-xs text-gray-600 mb-2 h-16 overflow-hidden">{project.description.substring(0,100)}...</p>
+        <p className="text-xs font-semibold mb-3">
+          <span 
+            style={{ backgroundColor: objectiveStyle.backgroundColor, color: objectiveStyle.color }}
+            className="px-2 py-0.5 rounded"
+          >
+            OBJETIVO: {project.objective}
+          </span>
+        </p>
+        <button className="w-full bg-positive-button-subtle-bg text-positive-dark-gray font-semibold text-sm py-2 rounded hover:bg-gray-300 transition-colors">
+          VEJA MAIS
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface AdditionalInfoItemProps {
   icon: React.ReactElement<{ className?: string }>; // Updated prop type
@@ -127,11 +136,18 @@ export const InitiativeDetailsPage: React.FC<InitiativeDetailsPageProps> = ({ in
             <div>
               <p className="text-sm font-medium text-gray-500 mb-2">Campo de Atuação</p>
               <div id="detail-tags" className="flex flex-wrap gap-2">
-                {initiative.tags.map(tag => (
-                  <span key={tag} className="bg-positive-lime text-positive-dark-gray font-semibold px-3 py-1 rounded-full text-xs">
-                    {tag.toUpperCase()}
-                  </span>
-                ))}
+                {initiative.tags.map(tag => {
+                  const style = getTagStyle(tag);
+                  return (
+                    <span
+                      key={tag}
+                      style={{ backgroundColor: style.backgroundColor, color: style.color }}
+                      className="font-semibold px-3 py-1 rounded-full text-xs"
+                    >
+                      {tag.toUpperCase()}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 
